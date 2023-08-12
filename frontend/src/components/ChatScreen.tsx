@@ -4,7 +4,10 @@ import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
 import MessageSection from "./MessageSection";
 import { FaUserGroup } from "react-icons/fa6";
 
-const ChatScreen = () => {
+interface Props{
+  active:string
+}
+const ChatScreen = ({active}:Props) => {
   return (
     <Box>
       <Box w={"100%"} h={"10vh"} bg={"white"} margin="auto">
@@ -16,7 +19,7 @@ const ChatScreen = () => {
         >
           <Box display={"flex"} flexDirection={"column"}>
             <Heading size="xs" color={"rgb(74, 85, 104)"}>
-              Introductions
+              {active}
             </Heading>
             <Text
               fontSize={{ base: "8px", md: "10px", lg: "12px", xl: "14px" }}
