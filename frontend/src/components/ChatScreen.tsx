@@ -9,7 +9,7 @@ interface Props{
 const ChatScreen = ({active}:Props) => {
   return (
     <Box>
-      <Box w={"100%"} h={"10vh"} bg={"white"} margin="auto">
+      <Box w={"100%"} h={"10vh"} bg={"white"} margin="auto" userSelect={"none"}>
         <Flex
           p={"1% 2%"}
           h={"100%"}
@@ -40,7 +40,6 @@ const ChatScreen = ({active}:Props) => {
         </Flex>
       </Box>
       <Box
-        className="screen_main_container"
         width={"77vw"}
         padding={"1% 2% 2% 2%"}
       >

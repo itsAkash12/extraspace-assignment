@@ -16,8 +16,8 @@ const Sidebar = ({groups, setActive, active}:Props) => {
       w={"23vw"}
       h={"100vh"}
       bg={"white"}
-      className="sidebar_main_container"
       p={{ base: "16px 6px", md: "12px", lg: "14px", xl: "16px" }}
+      userSelect={"none"}
     >
       <Box
         display={"flex"}
