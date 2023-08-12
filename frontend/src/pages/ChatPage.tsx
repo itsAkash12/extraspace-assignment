@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import Sidebar from "../components/Sidebar";
-import InputBox from "../components/InputBox";
 import ChatScreen from "../components/ChatScreen";
 import { Conversations } from "../assets/Data";
 

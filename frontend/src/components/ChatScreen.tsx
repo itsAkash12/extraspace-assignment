@@ -1,4 +1,3 @@
-import React from "react";
 import InputBox from "./InputBox";
 import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
 import MessageSection from "./MessageSection";

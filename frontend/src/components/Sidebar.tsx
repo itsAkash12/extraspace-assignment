@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Avatar, AvatarBadge, Box, Button, Text } from "@chakra-ui/react";
+import React from "react";
+import { Avatar, AvatarBadge, Box, Text } from "@chakra-ui/react";
 import { BiMessageSquareAdd } from "react-icons/bi";
 import { Conversations } from "../assets/Data";
 
