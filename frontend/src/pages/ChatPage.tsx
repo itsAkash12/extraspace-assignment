@@ -26,8 +26,7 @@ const ChatPage = () => {
     },
   ];
   useEffect(() => {
-    console.log(BASEURL);
-    socket = io(BASEURL);  // Use the environment variable directly
+    socket = io(BASEURL);
   }, []);
   return (
     <Box
