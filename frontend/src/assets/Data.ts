@@ -4,16 +4,12 @@ export interface Conversations {
 }
 
 export interface Message {
-    id: number;
+    id: string | number;
     name: string;
     time: string;
     message: string;
 }
 
-export interface Text{
-    username:string,
-    message:string
-  }
 
  export interface MessageState {
     allMessages: Text[];

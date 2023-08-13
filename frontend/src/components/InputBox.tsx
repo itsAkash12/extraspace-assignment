@@ -11,27 +11,44 @@ import {
 import { BsEmojiSunglasses } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useState, useEffect } from "react";
-import {  Text } from "../assets/Data";
+import { useMessageContext } from "../context/messageContext";
+import { io } from "socket.io-client";
+import { Message } from "../assets/Data";
 
-
+const socket = io(import.meta.env.VITE_APP_URL);
 const user_list: Array<string> = ["Alan", "Bob", "Carol", "Dean", "Elin"];
-
-
+function getCurrentTime24HrFormat(): string {
+  const now: Date = new Date();
+  const hours: string = String(now.getHours()).padStart(2, "0");
+  const minutes: string = String(now.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
 
 const InputBox = () => {
-  const [text, setText] = useState<string>("");
+  const { text, setText,message,setMessage } = useMessageContext();
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     if (text.trim() === "") return;
     const randomUser = user_list[Math.floor(Math.random() * user_list.length)];
-    const newMessage: Text = {
-      username: randomUser,
+    const currentTime: string = getCurrentTime24HrFormat();
+    const newMessage: Message = {
+      id: Date.now() + randomUser,
+      name: randomUser,
+      time: currentTime,
       message: text,
     };
+    socket.emit("newMessageFromFrontend", newMessage);
     setText("");
+    console.log(message)
   };
-  
+
+  useEffect(() => {
+    // Listen for messages from the server
+    socket.on("newMessageFromBackend", (message) => {
+      setMessage((prevMessages) => [...prevMessages, message]);
+    });
+  }, []);
 
   return (
     <Box position={"fixed"} bottom={5} w={"74%"}>
