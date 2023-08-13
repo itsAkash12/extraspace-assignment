@@ -3,7 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const chat = require("./routes/chat.routes");
 const socketIo = require("socket.io");
-const connection = require("./config/server")
+const connection = require("./config/server");
+const { ChatModel } = require("./models/chat.model");
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cors());
@@ -29,6 +30,18 @@ const io = socketIo(server,{
   }
 });
 
-io.on("connection", (socket)=> {
-  console.log("Connected to Socket Server");
-})
+io.on('connection', (socket) => {
+  console.log('User connected');
+  
+  // Listening for new messages
+  socket.on('newMessage', async (data) => {
+    try {
+      const message = new ChatModel(data);
+      await message.save();
+      // Broadcast the new message to all connected clients
+      io.emit('newMessage', message);
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+  });
+});
