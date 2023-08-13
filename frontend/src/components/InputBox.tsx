@@ -10,10 +10,13 @@ import {
 } from "@chakra-ui/react";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMessageContext } from "../context/messageContext";
 import { io } from "socket.io-client";
 import { Message } from "../assets/Data";
+// import "emoji-picker-react/dist/unified.css";
+import Picker from "emoji-picker-react";
+import "../App.css"
 
 const socket = io(import.meta.env.VITE_APP_URL);
 const user_list: Array<string> = ["Alan", "Bob", "Carol", "Dean", "Elin"];
@@ -25,7 +28,9 @@ function getCurrentTime24HrFormat(): string {
 }
 
 const InputBox = () => {
-  const { text, setText,message,setMessage } = useMessageContext();
+  const { text, setText, message, setMessage } = useMessageContext();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false); // State to control the visibility of the emoji picker
+  const emojiPickerRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
@@ -40,7 +45,22 @@ const InputBox = () => {
     };
     socket.emit("newMessageFromFrontend", newMessage);
     setText("");
-    console.log(message)
+    console.log(message);
+  };
+
+  const handleEmojiClick = (emoji: any) => {
+    const emojiText = emoji.emoji;
+    setText(text + emojiText);
+  };
+
+  const handleOutsideClick = (e: MouseEvent) => {
+    // Close the emoji picker if the click is outside the picker container
+    if (
+      emojiPickerRef.current &&
+      !emojiPickerRef.current.contains(e.target as Node)
+    ) {
+      setShowEmojiPicker(false);
+    }
   };
 
   useEffect(() => {
@@ -48,6 +68,15 @@ const InputBox = () => {
     socket.on("newMessageFromBackend", (message) => {
       setMessage((prevMessages) => [...prevMessages, message]);
     });
+  }, []);
+
+  useEffect(() => {
+    // Add an event listener to handle clicks outside the emoji picker
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      // Clean up the event listener
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
   }, []);
 
   return (
@@ -65,6 +94,7 @@ const InputBox = () => {
               border={"1px solid #cecece"}
               children={<BsEmojiSunglasses />}
               borderLeftRadius={"50px"}
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             />
             <Input
               placeholder="Type a Message"
@@ -85,6 +115,15 @@ const InputBox = () => {
           </InputGroup>
         </FormControl>
       </Stack>
+      {/* Emoji picker */}
+      {showEmojiPicker && (
+        <div
+          ref={emojiPickerRef}
+          className="emoji_picker"
+        >
+          <Picker onEmojiClick={handleEmojiClick} />
+        </div>
+      )}
     </Box>
   );
 };

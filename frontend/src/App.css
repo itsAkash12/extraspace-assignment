@@ -1,3 +1,16 @@
-.messagesection_container::-webkit-scrollbar{
-    display: none;
+.messagesection_container::-webkit-scrollbar {
+  display: none;
+}
+.emoji_picker {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  zindex: 1000;
+  width: auto;
+}
+@media screen and (max-width: 460px) {
+  .emoji_picker {
+    width: 100px;
+    right: 250px;
+  }
 }
