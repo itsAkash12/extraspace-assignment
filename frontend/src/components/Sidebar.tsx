@@ -83,6 +83,7 @@ const Sidebar = ({groups, setActive, active}:Props) => {
             borderRadius={"12px"}
             gap={"20px"}
             cursor={"pointer"}
+            key={el.id}
           >
             <Avatar size="sm" name={el.name} bg={`${active == el.name ? "#66b2b2" : "#e9eef3"}`} color={`${active == el.name ? "white" : "black"}`} />
             <Text fontWeight={"medium"} fontSize={{ base: "13px", md: "14px", lg: "16px" }} display={{ base: "none",sm:"block", md: "block", lg: "block" }}>{el.name}</Text>

@@ -31,11 +31,12 @@ const io = socketIo(server,{
 });
 
 io.on('connection', (socket) => {
-  console.log('User connected');
+  console.log('User connected to socket.io');
   
   // Listening for new messages
   socket.on('newMessage', async (data) => {
     try {
+      console.log(data);
       const message = new ChatModel(data);
       await message.save();
       // Broadcast the new message to all connected clients

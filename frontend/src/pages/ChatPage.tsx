@@ -1,15 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Box } from "@chakra-ui/react";
 import Sidebar from "../components/Sidebar";
 import ChatScreen from "../components/ChatScreen";
 import { Conversations } from "../assets/Data";
-import { io, Socket } from "socket.io-client";
 
-var BASEURL = import.meta.env.VITE_APP_URL;
-
-var socket: Socket;
-
-socket = io(BASEURL);
 
 const ChatPage = () => {
   const [active, setActive] = useState<string>("Introductions");

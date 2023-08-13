@@ -3,7 +3,6 @@ import { Box } from "@chakra-ui/react";
 import "../App.css";
 import { Message } from "../assets/Data";
 import MessageCard from "./MessageCard";
-import { useSelector } from "react-redux";
 
 const messages: Message[] = [
   {
