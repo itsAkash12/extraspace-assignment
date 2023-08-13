@@ -7,39 +7,36 @@ interface MessageCardProps {
 }
 
 const MessageCard: React.FC<MessageCardProps> = ({ message }) => {
+  
   return (
     <Box
-      maxW={"600px"}
+      w={"max-content"}
+      maxW={{ base: "200px", md: "400px", lg: "700px" }}
       borderWidth="1px"
-      borderRadius="lg"
+      borderRadius="0px 40px 40px 40px"
       p="4"
       my="3"
       boxShadow="md"
       bg="white"
-      borderTopLeftRadius="0px"
-      borderBottomLeftRadius="40px"
-      borderBottomRightRadius="40px"
-      borderTopRightRadius="40px"
       overflowWrap="break-word"
     >
-      <Flex align="center" justifyContent="space-between">
-        <Flex align="center" gap="20px">
+      <Flex align="center" gap={"7px"} justifyContent={"space-between"} userSelect={"none"}>
+        <Flex align="center" gap="10px">
           <Avatar
             size="sm"
             name={message.name}
-            src="https://bit.ly/dan-abramov"
           />
-          <Text fontSize="sm" color="gray.500">
+          <Text fontSize="sm" color="gray.500" fontWeight={"semibold"}>
             {message.name}
           </Text>
         </Flex>
         <Box>
-          <Text fontSize="sm" color="gray.500">
+          <Text fontSize="sm" color="teal.500">
             {message.time}
           </Text>
         </Box>
       </Flex>
-      <Text mt="2" fontSize="md">
+      <Text mt="2" fontSize={{ base: "13px", md: "14px", lg: "18px" }} >
         {message.message}
       </Text>
     </Box>

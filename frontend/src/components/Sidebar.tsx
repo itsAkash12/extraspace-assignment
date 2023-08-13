@@ -81,7 +81,7 @@ const Sidebar = ({groups, setActive, active}:Props) => {
             alignItems={"center"}
             p={"5px"}
             borderRadius={"12px"}
-            gap={"20px"}
+            gap={{ base: "13px", md: "14px", lg: "30px" }}
             cursor={"pointer"}
             key={el.id}
           >

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { BsEmojiSunglasses } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useMessageContext } from "../context/messageContext";
 import { io } from "socket.io-client";
 import { Message } from "../assets/Data";
