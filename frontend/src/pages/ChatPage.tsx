@@ -9,6 +9,8 @@ var BASEURL = import.meta.env.VITE_APP_URL;
 
 var socket: Socket;
 
+socket = io(BASEURL);
+
 const ChatPage = () => {
   const [active, setActive] = useState<string>("Introductions");
   const groups: Array<Conversations> = [
@@ -25,9 +27,7 @@ const ChatPage = () => {
       name: "Office",
     },
   ];
-  useEffect(() => {
-    socket = io(BASEURL);
-  }, []);
+  
   return (
     <Box
       width={"100vw"}
