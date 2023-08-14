@@ -4,6 +4,7 @@ This is a simple chat application built using ReactJS for the frontend and Expre
 
 ## Table of Contents
 - [Basic Task](#basic-task)
+- [Images](#images)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
@@ -24,12 +25,23 @@ This chat app is a single-page application with the following features:
 - Mentions (@) feature that shows a list of users from the user list when '@' is clicked.
 - WebSocket (socket.io) server implemented using Express.js for real-time communication between clients.
 
+## Images
+
+-Website Screen
+![mobile (2)](https://github.com/itsAkash12/extraspace-assignment/assets/107500115/24dbb88c-236c-4c4c-af4f-2ee15639e6c4)
+
+-Mobile Screen
+![mobile (1)](https://github.com/itsAkash12/extraspace-assignment/assets/107500115/4074c60a-6bb3-4219-8da0-1a00a08656e8)
+
+
 ## Installation
 1. Clone the repository: `git clone https://github.com/itsAkash12/extraspace-assignment`
 2. Navigate to the frontend directory: `cd your-chat-app/frontend`
 3. Install frontend dependencies: `npm install`
 4. Navigate to the backend directory: `cd ../backend`
 5. Install backend dependencies: `npm install`
+6. Change the Link of frontend which is present in index.js to frontend localhostport.
+7. Change the frontend/.env variable VITE_APP_URL to backend localhost port.
 
 ## Usage
 1. Start the frontend development server: `cd frontend && npm start`
@@ -55,6 +67,7 @@ This chat app is a single-page application with the following features:
 - ReactJS
 - Express.js
 - socket.io (for WebSocket communication, optional)
+
 
 ## Author
 - Akash Kumar Singh
