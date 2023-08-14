@@ -8,13 +8,6 @@ export interface Message {
     name: string;
     time: string;
     message: string;
+    likes:number
 }
 
-
- export interface MessageState {
-    allMessages: Text[];
-  }
-  
-  export interface RootState {
-    message: MessageState;
-  }

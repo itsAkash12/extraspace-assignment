@@ -1,11 +1,14 @@
 import { createContext, useState, ReactNode, useContext } from "react";
 import { Message } from "../assets/Data";
+import {io,Socket} from "socket.io-client"
 
+const socket = io(import.meta.env.VITE_APP_URL);
 interface MessageContextType {
+  socket:Socket;
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
-  message:Message[];
-  setMessage:React.Dispatch<React.SetStateAction<Message[]>>;
+  messages:Message[];
+  setMessages:React.Dispatch<React.SetStateAction<Message[]>>;
 }
 
 export const messageContext = createContext<MessageContextType | undefined>(undefined);
@@ -16,12 +19,13 @@ interface MessageContextProviderProps {
 
 const MessageContextProvider: React.FC<MessageContextProviderProps> = ({ children }) => {
   const [text, setText] = useState<string>("");
-  const [message, setMessage] = useState<Array<Message>>([]);
+  const [messages, setMessages] = useState<Array<Message>>([]);
   const allData:MessageContextType = {
+    socket,
     text,
     setText,
-    message,
-    setMessage
+    messages,
+    setMessages
   }
 
   return (

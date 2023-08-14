@@ -31,11 +31,23 @@ io.on('connection', (socket) => {
   // Listening for new messages
   socket.on('newMessageFromFrontend', async (data) => {
     try {
-      console.log(data);
-      // Broadcast the new message to all connected clients
       io.emit('newMessageFromBackend', data);
     } catch (error) {
       console.error('Error saving message:', error);
+    }
+  });
+  // Listening for updates in likes
+  socket.on("like", (data) => {
+    const { messages, messageId, likes } = data;
+    try {
+      const messageToUpdate = messages.find((message) => message.id === messageId);
+
+      if (messageToUpdate) {
+        messageToUpdate.likes = likes;
+        io.emit("like", { messageId, likes: messageToUpdate.likes });
+      }
+    } catch (error) {
+      console.error("Error handling like", error);
     }
   });
 });

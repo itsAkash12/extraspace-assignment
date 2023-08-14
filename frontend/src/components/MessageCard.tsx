@@ -1,12 +1,38 @@
-import React from "react";
-import { Box, Avatar, Text, Flex } from "@chakra-ui/react";
+import React,{useState,useEffect} from "react";
+import { Box, Avatar, Text, Flex, Badge } from "@chakra-ui/react";
 import { Message } from "../assets/Data";
+import { BiSolidLike } from "react-icons/bi";
+import { useMessageContext } from "../context/messageContext";
 
 interface MessageCardProps {
   message: Message;
 }
 
 const MessageCard: React.FC<MessageCardProps> = ({ message }) => {
+  const {socket,messages} = useMessageContext()
+  const [likeCount, setLikeCount] = useState(message.likes || 0);
+
+  const handleLikeClick = () => {
+    const data = {
+      messages,
+      messageId:message.id,
+      likes:likeCount + 1
+    }
+    socket.emit("like", data);
+  };
+
+  useEffect(() => {
+    socket.on("like", (updatedLikeCount) => {
+      if (message.id === updatedLikeCount.messageId) {
+        setLikeCount(updatedLikeCount.likes);
+      }
+    });
+
+    return () => {
+      socket.off("like");
+    };
+    
+  }, [message.id]);
   
   return (
     <Box
@@ -39,6 +65,12 @@ const MessageCard: React.FC<MessageCardProps> = ({ message }) => {
       <Text mt="2" fontSize={{ base: "13px", md: "14px", lg: "18px" }} >
         {message.message}
       </Text>
+      <Box display={"flex"} justifyContent={"flex-end"}>
+      <Box position={"relative"} bg={"white"} borderRadius={"50%"} p={"2px"} cursor={"pointer"} onClick={handleLikeClick}>
+            <BiSolidLike color="teal" fontSize="20px" />
+            <Badge position={"absolute"} mt={"-12px"} ml={"6px"} bg={"transparent"} color={"black"}  fontWeight={"bold"}>{likeCount}</Badge>
+          </Box>
+      </Box>
     </Box>
   );
 };

@@ -12,13 +12,10 @@ import { BsEmojiSunglasses } from "react-icons/bs";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useMessageContext } from "../context/messageContext";
-import { io } from "socket.io-client";
 import { Message } from "../assets/Data";
-// import "emoji-picker-react/dist/unified.css";
 import Picker from "emoji-picker-react";
 import "../App.css"
 
-const socket = io(import.meta.env.VITE_APP_URL);
 const user_list: Array<string> = ["Alan", "Bob", "Carol", "Dean", "Elin"];
 function getCurrentTime24HrFormat(): string {
   const now: Date = new Date();
@@ -28,9 +25,42 @@ function getCurrentTime24HrFormat(): string {
 }
 
 const InputBox = () => {
-  const { text, setText, message, setMessage } = useMessageContext();
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false); // State to control the visibility of the emoji picker
+  const {socket, text, setText, setMessages } = useMessageContext();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false); 
   const emojiPickerRef = useRef<HTMLDivElement>(null);
+  const [showMentionList, setShowMentionList] = useState(false);
+  const [mentionList, setMentionList] = useState<Array<string>>([])
+
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputText = event.target.value;
+
+    if (inputText.includes("@")) {
+      const query = inputText.split("@")[1].toLowerCase();
+
+      const matchedMentions = user_list.filter((user) =>
+        user.toLowerCase().includes(query)
+      );
+      if (matchedMentions.length > 0) {
+        setShowMentionList(true);
+        setMentionList(matchedMentions);
+      } else {
+        setShowMentionList(false);
+      }
+    } else {
+      setShowMentionList(false);
+    }
+
+    setText(inputText);
+  };
+
+  const handleMentionClick = (mention: string) => {
+    // Appending the selected mention to the input field text
+    const newText = text.replace(/@\S*/, `@${mention} `);
+    setText(newText);
+
+    setShowMentionList(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
@@ -42,10 +72,10 @@ const InputBox = () => {
       name: randomUser,
       time: currentTime,
       message: text,
+      likes:0
     };
     socket.emit("newMessageFromFrontend", newMessage);
     setText("");
-    console.log(message);
   };
 
   const handleEmojiClick = (emoji: any) => {
@@ -66,15 +96,15 @@ const InputBox = () => {
   useEffect(() => {
     // Listen for messages from the server
     socket.on("newMessageFromBackend", (message) => {
-      setMessage((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
   }, []);
 
   useEffect(() => {
-    // Add an event listener to handle clicks outside the emoji picker
+    // Adding an event listener to handle clicks outside the emoji picker
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      // Clean up the event listener
+      // Cleaning up the event listener
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
@@ -103,9 +133,7 @@ const InputBox = () => {
               _hover={{ border: "1px solid #cecece" }}
               autoComplete="off"
               value={text}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setText(event.target.value)
-              }
+              onChange={handleInputChange}
             />
             <InputRightElement width="4.5rem">
               <Button h="1.75rem" size="sm" type="submit" bg={"transparent"}>
@@ -123,6 +151,31 @@ const InputBox = () => {
         >
           <Picker onEmojiClick={handleEmojiClick} />
         </div>
+      )}
+      {showMentionList && (
+        <Box
+          position="absolute"
+          bottom="100%"
+          left={0}
+          right={0}
+          zIndex={1000}
+          bg="white"
+          border="1px solid #cecece"
+          borderRadius="md"
+          boxShadow="sm"
+          w={"100px"}
+        >
+          {mentionList.map((mention) => (
+            <Button
+              key={mention}
+              w="100%"
+              variant="ghost"
+              onClick={() => handleMentionClick(mention)}
+            >
+              {mention}
+            </Button>
+          ))}
+        </Box>
       )}
     </Box>
   );

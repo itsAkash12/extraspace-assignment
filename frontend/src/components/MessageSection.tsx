@@ -6,26 +6,28 @@ import MessageCard from "./MessageCard";
 import { useMessageContext } from "../context/messageContext";
 
 const MessageSection: React.FC = () => {
-  const { message } = useMessageContext();
+  const { messages } = useMessageContext();
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
+
 
   useEffect(() => {
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
     }
-  }, [message]);
+  }, [messages]);
 
   return (
     <Box
       ref={messageContainerRef}
-      height={{ base: '75vh', md: '77vh', lg: '77vh', xl: '77vh' }}
+      height={{ base: "75vh", md: "77vh", lg: "77vh", xl: "77vh" }}
       maxW={"100%"}
       p={"5px"}
       overflow={"auto"}
       className="messagesection_container"
     >
-      {message.map((message: Message) => (
-        <MessageCard key={message.id} message={message} />
+      {messages.map((message: Message) => (
+          <MessageCard key={message.id} message={message} />
       ))}
     </Box>
   );
