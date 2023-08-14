@@ -1,8 +1,9 @@
 # ReactJS Chat App
 
-This is a simple chat application built using ReactJS for the frontend and Express.js with socket.io for the backend, following an MVC (Model-View-Controller) approach. It allows users to send chat messages in real-time, like messages, use emojis, and mention other users.
+This is a simple chat application built using ReactJS and totally secured with Type for the frontend and Express.js with socket.io for the backend, following an MVC (Model-View-Controller) approach. It allows users to send chat messages in real-time, like messages, use emojis, and mention other users.
 
 ## Table of Contents
+- [Technologies Used](#technologies-used)
 - [Basic Task](#basic-task)
 - [Images](#images)
 - [Installation](#installation)
@@ -11,6 +12,13 @@ This is a simple chat application built using ReactJS for the frontend and Expre
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [Author](#author)
+
+
+## Technologies Used
+- ReactJS
+- TypeScript
+- Express.js
+- socket.io (for WebSocket communication, optional)
 
 ## Basic Task
 This chat app is a single-page application with the following features:
@@ -62,11 +70,6 @@ This chat app is a single-page application with the following features:
 ## Project Structure
 - frontend/: Contains the ReactJS frontend code.
 - backend/: Contains the Express.js backend code following the MVC pattern.
-
-## Technologies Used
-- ReactJS
-- Express.js
-- socket.io (for WebSocket communication, optional)
 
 
 ## Author
