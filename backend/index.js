@@ -4,7 +4,11 @@ const cors = require("cors");
 const socketIo = require("socket.io");
 const PORT = process.env.PORT || 8080;
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://extraspace-assignment.vercel.app', 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));
@@ -21,7 +25,9 @@ const server = app.listen(PORT, () => {
 const io = socketIo(server,{
   pingTimeout:60000,
   cors:{
-    origin:process.env.FRONTEND_URL
+    origin: 'https://extraspace-assignment.vercel.app',
+    methods: ['GET', 'POST'], 
+    credentials: true 
   }
 });
 
