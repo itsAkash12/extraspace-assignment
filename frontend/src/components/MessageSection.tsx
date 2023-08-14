@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import "../App.css";
 import { Message } from "../assets/Data";
 import MessageCard from "./MessageCard";
@@ -26,9 +26,11 @@ const MessageSection: React.FC = () => {
       overflow={"auto"}
       className="messagesection_container"
     >
-      {messages.map((message: Message) => (
+      {
+        messages.length < 1 ? <Box display={"flex"} justifyContent={"center"} alignItems={"center"}><Text>Start Your Conversation !!</Text></Box>:<>{messages.map((message: Message) => (
           <MessageCard key={message.id} message={message} />
-      ))}
+      ))}</>
+      }
     </Box>
   );
 };
